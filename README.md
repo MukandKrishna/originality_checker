@@ -1,6 +1,6 @@
 # Originality Checker
 
-A local tool that checks a draft against source files you provide. It looks for wording that may be copied, lightly rewritten, or too close to the original.
+This is a tool that checks a draft against source files you provide. It looks for wording that may be copied, lightly rewritten, or too close to the original.
 
 This is not Turnitin. It cannot search the whole internet or private journal databases. What it does is compare your draft against the PDFs, Word files, and text files you give it, then flags passages that look suspicious.
 
