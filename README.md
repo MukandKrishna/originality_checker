@@ -1,181 +1,118 @@
-# Originality Audit Toolkit v3
+# Originality Checker
 
-This toolkit combines a reusable ChatGPT/Claude-style skill with a local Python similarity checker.
+A local tool that checks a draft against source files you provide. It looks for wording that may be copied, lightly rewritten, or too close to the original.
 
-## Files
+This is not Turnitin. It cannot search the whole internet or private journal databases. What it does is compare your draft against the PDFs, Word files, and text files you give it, then flags passages that look suspicious.
 
-- `Originality_Check_Skill.md` — orchestration and review instructions.
-- `originality_checker.py` — local lexical + optional semantic similarity engine (v3).
-- `requirements.txt` — Python dependencies.
-- `example_draft.txt` / `example_source.txt` — quick smoke-test files.
+## Why use this
+
+When you write a review of a paper, you usually keep the source open. You rephrase as you go. Most of the time that's fine. Sometimes a sentence ends up closer to the source than you meant.
+
+This tool catches that. It shows which sentences overlap with the source, how strong the overlap is, and what the risk looks like on a scale of 0 to 5. You decide what to do next.
+
+## What it checks
+
+- Exact phrase overlap, from 2 to 12 word windows
+- Shared named entities, like "Grid Code 2023" or "MedScore"
+- Word 3-gram overlap
+- Character 5-gram overlap
+- Fuzzy similarity
+- TF-IDF similarity
+- Semantic similarity with sentence embeddings (optional)
+- Cross-encoder re-ranking (optional, more accurate)
+- Citation and quotation presence
 
 ## Setup
 
-Create and activate a virtual environment:
+You need Python 3.9 or newer. These commands are for Windows PowerShell.
+
+Create a virtual environment and install the packages:
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
 pip install -r requirements.txt
 ```
 
-> The first run with semantic mode enabled downloads the default embedding model
-> (`sentence-transformers/all-mpnet-base-v2`, ~438 MB) from Hugging Face and caches it
-> locally. Subsequent runs use the cached copy.
+The first run with semantic mode downloads a model from Hugging Face. It's about 438 MB, so it takes a minute. After that it's cached.
 
 ## Quick start
 
-Minimal lexical mode (no model download):
+Run it on the example files:
 
-```bash
+```powershell
 python originality_checker.py --draft example_draft.txt --sources example_source.txt --no-semantic
 ```
 
-Full mode (semantic + FAISS):
+`--no-semantic` skips the embedding model so it runs fast.
 
-```bash
-python originality_checker.py \
-  --draft example_draft.txt \
-  --sources example_source.txt \
-  --json report.json \
-  --text-report report.txt
+## Checking your own files
+
+Give it a draft and one or more sources:
+
+```powershell
+python originality_checker.py --draft m_review.docx --sources paper1.pdf paper2.pdf
 ```
 
-With Cross-Encoder re-ranking (more precise, slower):
+It reads .txt, .md, .rst, .csv, .json, .html, .pdf, and .docx files.
 
-```bash
-python originality_checker.py \
-  --draft example_draft.txt \
-  --sources example_source.txt \
-  --rerank
-```
+Add `--json report.json --text-report report.txt` to save both a human-readable report and a structured JSON file.
 
-> The default re-ranker is `cross-encoder/stsb-roberta-base` — trained on the
-> Semantic Textual Similarity Benchmark (STS-B), which is exactly the task of
-> judging how close two sentences are in meaning. It outputs calibrated 0-1
-> similarity scores that match the `rr >= 0.75` thresholds.
->
-> The older `cross-encoder/ms-marco-MiniLM-L-6-v2` is a **web-search relevance**
-> model (MS MARCO = query→document matching). Its logits are unbounded, so
-> thresholds like 0.75 have no meaningful interpretation for plagiarism scoring.
+## Understanding the output
 
-For a folder:
+Each flagged passage gets a risk score:
 
-```bash
-python originality_checker.py \
-  --draft draft.docx \
-  --sources-folder ./sources \
-  --json originality_report.json
-```
-
-Control source window sizes (default indexes 1-, 2-, and 3-sentence windows):
-
-```bash
-python originality_checker.py --draft draft.txt --sources source.txt \
-  --source-window-sizes 1,2,3
-```
-
-## What it checks (v3)
-
-- **exact 2–12 word phrase windows** (now includes short 2–5 word phrases for entity/proper-name detection)
-- **named entity overlap** (e.g. "Grid Code 2023", acronyms, capitalized sequences) — supporting signal only
-- word 3-gram overlap
-- character 5-gram overlap
-- fuzzy similarity
-- TF-IDF similarity
-- optional SentenceTransformer semantic similarity (default: `all-mpnet-base-v2`)
-- optional FAISS retrieval with **pre-built index** (corpus encoded once, not per draft sentence)
-- optional **Cross-Encoder re-ranking** — **batched** (all candidates scored in one call, then re-ordered)
-- **sliding source windows** — indexes 1-, 2-, and 3-sentence windows so multi-sentence paraphrasing is detected
-- simple citation/quotation heuristics
-- **phrase highlighting** in reports (shared material wrapped in `[brackets]`)
-- **source-level aggregation** (summary per source file)
-- **abbreviation-aware sentence splitting** (handles `e.g.`, `i.e.`, `et al.`, `U.S.`, etc.)
-
-## Architecture (v3)
-
-```
-                  Draft
-                    |
-                    v
-            Better sentence split
-                    |
-        +-----------+-----------+
-        |                       |
-        v                       v
-  Lexical engine          Embedding engine
-        |                 (pre-built FAISS)
-  exact 2-12 phrases            |
-  3-grams / char-grams          v
-  fuzzy / TF-IDF         Semantic candidates
-  entity overlap               |
-        |                       |
-        +-----------+-----------+
-                    |
-                    v
-             Candidate pool
-                    |
-                    v
-          Cross-Encoder re-rank (optional)
-                    |
-                    v
-             Combined evidence
-                    |
-                    v
-             Risk classification
-                    |
-                    v
-        Human-readable report
-        (phrase highlighting)
-```
-
-## Embedding model selection
-
-| Model | Dimensions | Speed | Use case |
-|---|---|---|---|
-| `all-mpnet-base-v2` (default) | 768 | medium | Best quality of the all-* family — recommended |
-| `all-MiniLM-L6-v2` | 384 | ~5x faster | Large corpora where speed matters |
-| `BAAI/bge-m3` | 1024 | slower | Multilingual; **requires threshold recalibration** |
-| `intfloat/multilingual-e5-large` | 1024 | medium/slow | Multilingual |
-
-Switch with `--semantic-model`:
-
-```bash
-python originality_checker.py --draft draft.txt --sources source.txt \
-  --semantic-model sentence-transformers/all-MiniLM-L6-v2
-```
-
-## Threshold calibration
-
-Different embedding models produce different similarity distributions.
-If you switch to a model other than `all-mpnet-base-v2`, calibrate the semantic
-thresholds on your own data:
-
-```bash
-python originality_checker.py --draft draft.txt --sources source.txt \
-  --sem-med-threshold 0.78 --sem-high-threshold 0.88
-```
-
-Defaults (calibrated for `all-mpnet-base-v2`):
-- `sem_med` = 0.82 → "Semantically similar"
-- `sem_high` = 0.90 → "Very high semantic similarity"
-
-## Citation / quotation logic
-
-| Case | Verdict |
+| Score | Meaning |
 |---|---|
-| Proper paraphrase + citation | Usually acceptable |
-| Near-verbatim wording + citation, no quotes | Potential quotation problem |
-| Verbatim wording + quotes + citation | Usually acceptable |
-| Verbatim wording + no citation | High risk |
-| Paraphrased distinctive finding + no citation | Can still be plagiarism |
+| 0 | No material overlap |
+| 1 | Low overlap, often just shared names |
+| 2 | Semantically similar but wording looks independent |
+| 3 | Close paraphrase or patchwriting |
+| 4 | Near-verbatim overlap |
+| 5 | Direct copying, especially without quotes or citation |
 
-## Disclaimer
+The report shows the draft sentence and the source sentence with overlapping phrases in brackets:
 
-Similarity signals identify passages for review. They do not by themselves prove plagiarism.
-This is NOT a replacement for Turnitin/iThenticate — it only compares against sources you provide locally.
+```
+Draft : [Grid Code 2023] provides [technical requirements for] the [secure operation of Pakistan's transmission] network.
+Source: [Grid Code 2023] establishes [technical requirements for] [secure operation of Pakistan's transmission] system.
+```
+
+## Sliding windows
+
+Sources are indexed in three ways: single sentences, two-sentence windows, and three-sentence windows. If a draft merges two source sentences into one paragraph, the tool still notices.
+
+## Semantic mode
+
+Without `--no-semantic`, the tool uses an embedding model to find meaning-level matches. This helps when the wording is different but the meaning is close. The default model is `all-mpnet-base-v2`. It is slower than MiniLM but gives better quality.
+
+If speed matters and your sources are large, switch to MiniLM:
+
+```powershell
+python originality_checker.py --draft my_review.docx --sources paper1.pdf --semantic-model sentence-transformers/all-MiniLM-L6-v2
+```
+
+## Cross-encoder re-ranking
+
+Add `--rerank` to score candidates with a cross-encoder. It's more precise, but slower. The default model is `cross-encoder/stsb-roberta-base`, which outputs calibrated 0-1 similarity scores.
+
+## Thresholds
+
+Semantic thresholds are set for the default model. If you switch models, the score distribution changes, so recalibrate like this:
+
+```powershell
+python originality_checker.py --draft my_review.docx --sources paper1.pdf --sem-med-threshold 0.78 --sem-high-threshold 0.88
+```
+
+## What this tool does not do
+
+It does not prove plagiarism. A high score means "look at this passage", not "this is copying". Shared entities like a paper title or a standard name are not plagiarism on their own, so the tool treats them as low-risk signals.
+
+It also only compares against the sources you provide. It has no access to Turnitin or iThenticate databases, and it cannot search the web by itself.
+
+## Files
+
+- `originality_checker.py` — the checker itself
+- `Originality_Check_Skill.md` — the skill guide describing the full audit workflow
+- `requirements.txt` — Python dependencies
+- `example_draft.txt` and `example_source.txt` — sample files to try
