@@ -25,7 +25,7 @@ git config user.email "mukandrathi111@gmail.com"
 git add .
 git commit -m "Initial commit"
 git branch -M main
-git remote add origin https://MukandKrishna@github.com/MukandKrishna/PhD-Opportunity-Tracker.git
+git remote add origin https://github.com/MukandKrishna/originality_checker.git
 git remote set-url origin
 git push -u origin main
 
