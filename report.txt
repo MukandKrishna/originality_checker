@@ -1,0 +1,35 @@
+ORIGINALITY AUDIT REPORT
+==============================================================================
+Sources compared: 1
+Draft sentence units: 2
+Semantic model enabled: True
+FAISS enabled: True
+Cross-Encoder re-rank enabled: True
+
+Local comparison coverage is 100% against the source files supplied to this tool. It does not cover private institutional databases or sources you did not provide.
+Similarity signals identify passages for review. They do not by themselves prove plagiarism.
+
+SOURCE SUMMARY (by max risk)
+------------------------------------------------------------------------------
+  example_source.txt: 2 flagged unit(s), max risk 4/5 (Near-verbatim overlap)
+
+FLAGGED PASSAGES
+==============================================================================
+[1] Risk 4/5 — Near-verbatim overlap
+Source: example_source.txt
+Draft : [Grid Code 2023] provides [technical requirements for] the [secure operation of Pakistan's transmission] network.
+Source: [Grid Code 2023] establishes [technical requirements for] [secure operation of Pakistan's transmission] system.
+Shared phrases: "secure operation of pakistan s transmission", "secure operation of pakistan s", "operation of pakistan s transmission", "secure operation of pakistan", "operation of pakistan s", "of pakistan s transmission", "grid code 2023", "technical requirements for"
+Scores: exact=0.10, word3=0.46, char5=0.76, fuzzy=0.90, tfidf=0.58, entity=1.00, semantic=0.99
+Rerank: 1.00
+Why: substantial lexical overlap; very high semantic similarity; cross-encoder confirms strong pairwise similarity; strong character-level overlap; shared named entities (e.g., 100% of draft entities found); high lexical overlap and no obvious citation detected
+------------------------------------------------------------------------------
+[2] Risk 4/5 — Near-verbatim overlap
+Source: example_source.txt
+Draft : The code also [requires coordinated protection] [for users of the] network.
+Source: It [requires coordinated protection] and defines obligations [for users of the] transmission network.
+Shared phrases: "for users of the", "requires coordinated protection", "for users of", "users of the", "requires coordinated", "coordinated protection", "for users", "users of"
+Scores: exact=0.00, word3=0.33, char5=0.71, fuzzy=0.92, tfidf=0.42, entity=0.00, semantic=0.77
+Rerank: 0.78
+Why: substantial lexical overlap; cross-encoder indicates meaningful pairwise similarity; very high fuzzy sentence similarity; strong character-level overlap; high lexical overlap and no obvious citation detected
+------------------------------------------------------------------------------

@@ -1,0 +1,32 @@
+Before starting a new task, tell Cline:
+
+"Summarize the current implementation, decisions, files changed, remaining issues, and next steps into the project memory/context files so I can continue in a new task."
+
+Cline's Memory Bank workflow is specifically designed for this: it can preserve project knowledge in files, then a new conversation can read that information and continue. 
+C
+Cline
+
+And Cline Rules are persistent across conversations, so project-specific instructions can also remain available in .clinerules/
+
+
+
+
+
+
+
+
+
+
+
+"""
+git init
+git config user.name "Mukand Krishna"
+git config user.email "mukandrathi111@gmail.com"
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://MukandKrishna@github.com/MukandKrishna/PhD-Opportunity-Tracker.git
+git remote set-url origin
+git push -u origin main
+
+""

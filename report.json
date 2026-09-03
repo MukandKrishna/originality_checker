@@ -1,0 +1,278 @@
+{
+  "draft_name": "example_draft.txt",
+  "source_count": 1,
+  "draft_units": 2,
+  "semantic_enabled": true,
+  "faiss_enabled": true,
+  "rerank_enabled": false,
+  "matches": [
+    {
+      "draft_unit": "Grid Code 2023 provides technical requirements for the secure operation of Pakistan's transmission network.",
+      "source_unit": "Grid Code 2023 establishes technical requirements for secure operation of Pakistan's transmission system.",
+      "source_name": "example_source.txt",
+      "exact_phrase_overlap": 0.1,
+      "word_ngram_overlap": 0.4615,
+      "char_ngram_overlap": 0.7647,
+      "fuzzy_ratio": 0.8995,
+      "tfidf_similarity": 0.5798,
+      "entity_overlap": 1.0,
+      "shared_phrases": [
+        {
+          "text": "secure operation of pakistan s transmission",
+          "start_draft": 55,
+          "end_draft": 98,
+          "start_source": 54,
+          "end_source": 97
+        },
+        {
+          "text": "secure operation of pakistan s",
+          "start_draft": 55,
+          "end_draft": 85,
+          "start_source": 54,
+          "end_source": 84
+        },
+        {
+          "text": "operation of pakistan s transmission",
+          "start_draft": 62,
+          "end_draft": 98,
+          "start_source": 61,
+          "end_source": 97
+        },
+        {
+          "text": "secure operation of pakistan",
+          "start_draft": 55,
+          "end_draft": 83,
+          "start_source": 54,
+          "end_source": 82
+        },
+        {
+          "text": "operation of pakistan s",
+          "start_draft": 62,
+          "end_draft": 85,
+          "start_source": 61,
+          "end_source": 84
+        },
+        {
+          "text": "of pakistan s transmission",
+          "start_draft": 72,
+          "end_draft": 98,
+          "start_source": 71,
+          "end_source": 97
+        },
+        {
+          "text": "grid code 2023",
+          "start_draft": 0,
+          "end_draft": 14,
+          "start_source": 0,
+          "end_source": 14
+        },
+        {
+          "text": "technical requirements for",
+          "start_draft": 24,
+          "end_draft": 50,
+          "start_source": 27,
+          "end_source": 53
+        },
+        {
+          "text": "secure operation of",
+          "start_draft": 55,
+          "end_draft": 74,
+          "start_source": 54,
+          "end_source": 73
+        },
+        {
+          "text": "operation of pakistan",
+          "start_draft": 62,
+          "end_draft": 83,
+          "start_source": 61,
+          "end_source": 82
+        },
+        {
+          "text": "of pakistan s",
+          "start_draft": 72,
+          "end_draft": 85,
+          "start_source": 71,
+          "end_source": 84
+        },
+        {
+          "text": "pakistan s transmission",
+          "start_draft": 75,
+          "end_draft": 98,
+          "start_source": 74,
+          "end_source": 97
+        },
+        {
+          "text": "grid code",
+          "start_draft": 0,
+          "end_draft": 9,
+          "start_source": 0,
+          "end_source": 9
+        },
+        {
+          "text": "code 2023",
+          "start_draft": 5,
+          "end_draft": 14,
+          "start_source": 5,
+          "end_source": 14
+        },
+        {
+          "text": "technical requirements",
+          "start_draft": 24,
+          "end_draft": 46,
+          "start_source": 27,
+          "end_source": 49
+        },
+        {
+          "text": "requirements for",
+          "start_draft": 34,
+          "end_draft": 50,
+          "start_source": 37,
+          "end_source": 53
+        },
+        {
+          "text": "secure operation",
+          "start_draft": 55,
+          "end_draft": 71,
+          "start_source": 54,
+          "end_source": 70
+        },
+        {
+          "text": "operation of",
+          "start_draft": 62,
+          "end_draft": 74,
+          "start_source": 61,
+          "end_source": 73
+        },
+        {
+          "text": "of pakistan",
+          "start_draft": 72,
+          "end_draft": 83,
+          "start_source": 71,
+          "end_source": 82
+        },
+        {
+          "text": "pakistan s",
+          "start_draft": 75,
+          "end_draft": 85,
+          "start_source": 74,
+          "end_source": 84
+        },
+        {
+          "text": "s transmission",
+          "start_draft": 84,
+          "end_draft": 98,
+          "start_source": 83,
+          "end_source": 97
+        }
+      ],
+      "semantic_similarity": 0.9861,
+      "rerank_score": null,
+      "risk_score": 4,
+      "risk_label": "Near-verbatim overlap",
+      "reasons": [
+        "substantial lexical overlap",
+        "very high semantic similarity",
+        "strong character-level overlap",
+        "shared named entities (e.g., 100% of draft entities found)",
+        "high lexical overlap and no obvious citation detected"
+      ]
+    },
+    {
+      "draft_unit": "The code also requires coordinated protection for users of the network.",
+      "source_unit": "It requires coordinated protection and defines obligations for users of the transmission network.",
+      "source_name": "example_source.txt",
+      "exact_phrase_overlap": 0.0,
+      "word_ngram_overlap": 0.3333,
+      "char_ngram_overlap": 0.7121,
+      "fuzzy_ratio": 0.918,
+      "tfidf_similarity": 0.4231,
+      "entity_overlap": 0.0,
+      "shared_phrases": [
+        {
+          "text": "for users of the",
+          "start_draft": 46,
+          "end_draft": 62,
+          "start_source": 59,
+          "end_source": 75
+        },
+        {
+          "text": "requires coordinated protection",
+          "start_draft": 14,
+          "end_draft": 45,
+          "start_source": 3,
+          "end_source": 34
+        },
+        {
+          "text": "for users of",
+          "start_draft": 46,
+          "end_draft": 58,
+          "start_source": 59,
+          "end_source": 71
+        },
+        {
+          "text": "users of the",
+          "start_draft": 50,
+          "end_draft": 62,
+          "start_source": 63,
+          "end_source": 75
+        },
+        {
+          "text": "requires coordinated",
+          "start_draft": 14,
+          "end_draft": 34,
+          "start_source": 3,
+          "end_source": 23
+        },
+        {
+          "text": "coordinated protection",
+          "start_draft": 23,
+          "end_draft": 45,
+          "start_source": 12,
+          "end_source": 34
+        },
+        {
+          "text": "for users",
+          "start_draft": 46,
+          "end_draft": 55,
+          "start_source": 59,
+          "end_source": 68
+        },
+        {
+          "text": "users of",
+          "start_draft": 50,
+          "end_draft": 58,
+          "start_source": 63,
+          "end_source": 71
+        },
+        {
+          "text": "of the",
+          "start_draft": 56,
+          "end_draft": 62,
+          "start_source": 69,
+          "end_source": 75
+        }
+      ],
+      "semantic_similarity": 0.7686,
+      "rerank_score": null,
+      "risk_score": 4,
+      "risk_label": "Near-verbatim overlap",
+      "reasons": [
+        "substantial lexical overlap",
+        "very high fuzzy sentence similarity",
+        "strong character-level overlap",
+        "high lexical overlap and no obvious citation detected"
+      ]
+    }
+  ],
+  "source_summaries": [
+    {
+      "source_name": "example_source.txt",
+      "unit_count": 2,
+      "max_risk": 4,
+      "max_risk_label": "Near-verbatim overlap",
+      "top_matches": 2
+    }
+  ],
+  "coverage_note": "Local comparison coverage is 100% against the source files supplied to this tool. It does not cover private institutional databases or sources you did not provide.",
+  "disclaimer": "Similarity signals identify passages for review. They do not by themselves prove plagiarism."
+}

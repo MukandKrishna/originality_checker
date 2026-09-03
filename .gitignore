@@ -1,0 +1,14 @@
+__pycache__/
+__pycache__
+.venv/
+.venv
+
+COMP7300_Critical_Review_ForceBench_draft.docx
+COMP7300_Critical_Review_MedScore_draft.docx
+FORCE_BENCH_Relevant Is Not Warranted_Evidence-Force Calibration for Cited RAG, May 2026.pdf
+Humanize_Skill_v3.md
+MedScore_Generalizable Factuality Evaluation of Open-ended Long-form Medical Answers by Domain-adapted Claim Decomposition and V.pdf
+report_forcebench.json
+report_forcebench.txt
+report_medscore.json
+report_medscore.txt
